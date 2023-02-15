@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\invoiceResource;
 use App\Models\invoiceModel;
+use App\Models\mejaModel;
 use Illuminate\Http\Request;
 
 class invoiceController extends Controller
@@ -45,7 +46,14 @@ class invoiceController extends Controller
         $file->id_pesanan = $request->id_pesanan;
         $file->jumlah_pesanan = $request->jumlah_pesanan;
         $file->total_harga = $request->total_harga;
+        $file->no_meja = $request->no_meja;
+        $file->waktu = $request->waktu;
         $file->save();
+        if ($request->no_meja > 0) {
+            mejaModel::where('no_meja', $request->no_meja)->update([
+                'status' => 'notnull'
+            ]);
+        }
         return response()->json([
             'status' => true,
             'messages' => 'Berhasil Menambahkan Magazine Baru'
@@ -62,6 +70,26 @@ class invoiceController extends Controller
     {
         //
     }
+
+
+    // public function getInvoiceDate($date)
+    // {
+    //     $invoice = invoiceModel::where('created_at', $date)->get();
+    //     return response()->json([
+    //         'status' => 'true',
+    //         'data' => invoiceResource::collection($invoice)
+    //     ]);
+    // }
+    public function getInvoiceDate($date)
+    {
+        $invoice = invoiceModel::where('created_at', '>=', $date)->get();
+        return response()->json([
+            'status' => 'true',
+            'data' => invoiceResource::collection($invoice)
+        ]);
+    }
+
+
 
     /**
      * Show the form for editing the specified resource.

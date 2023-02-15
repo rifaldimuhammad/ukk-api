@@ -5,17 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class invoiceModel extends Model
+class mejaModel extends Model
 {
     use HasFactory;
-    protected $table = 'invoice';
     protected $primaryKey = "id";
-    protected $fillable  = [
-        'id_menu',
-        'id_pesanan',
-        'jumlah_pesanan',
-        'total_harga',
+    protected $table = 'tempat';
+    protected $fillable = [
+        'option',
+        'status',
         'no_meja',
-        'waktu'
     ];
 }

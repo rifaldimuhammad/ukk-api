@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\pesananResource;
+use App\Models\mejaModel;
 use App\Models\pesananModel;
 use Illuminate\Http\Request;
 
@@ -56,7 +57,8 @@ class pesananController extends Controller
                     'harga_menu' => $request->harga_menu,
                     'jumlah_menu' => $request->jumlah_menu,
                     'total_harga' => $request->harga_menu * $request->jumlah_menu,
-                    'id_user' => $request->id_user
+                    'id_user' => $request->id_user,
+
                 ]);
             }
         } else {
@@ -66,6 +68,7 @@ class pesananController extends Controller
             $file->jumlah_menu = $request->jumlah_menu;
             $file->total_harga = $request->harga_menu * $request->jumlah_menu;
             $file->id_user = $request->id_user;
+
             $file->save();
         }
         return response()->json([

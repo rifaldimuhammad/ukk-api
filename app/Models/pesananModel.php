@@ -15,7 +15,7 @@ class pesananModel extends Model
         'id_menu',
         'harga_menu',
         'jumlah_menu',
-        'total_harga'
+        'total_harga',
     ];
 
     public function menu()
