@@ -29,7 +29,7 @@ Route::post('/logout', [userController::class, 'logout'])->middleware('auth:api'
 
 Route::get('/menu/kategori/{category}', [menuController::class, 'showByCat']);
 Route::get('/invoice/byDate/{date}', [invoiceController::class, 'getInvoiceDate']);
-// Route::get('/invoice/byDateNow', [invoiceController::class, 'getInvoiceDateNow']);
+Route::post('/invoice/updateEkstra/{id}', [invoiceController::class, 'updateEkstra']);
 Route::apiResource('/menu', menuController::class);
 Route::apiResource('/kategori', kategoriController::class);
 Route::apiResource('/pesanan', pesananController::class);

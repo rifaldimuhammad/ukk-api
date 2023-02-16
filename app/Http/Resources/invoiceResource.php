@@ -22,8 +22,11 @@ class invoiceResource extends JsonResource
             'total_harga' => $this->total_harga,
             'no_meja' => $this->no_meja,
             'waktu' => $this->waktu,
+            'ekstra_waktu' => $this->ekstra_waktu,
             'created_at' => $this->created_at->format('F d , Y'),
-            'created_at_time' => $this->created_at->format('h:i:s'),
+            'created_at_time' => $this->created_at->format('H:i:s'),
+            'updated_at' => $this->updated_at->format('F d , Y'),
+            'updated_at_time' => $this->updated_at->format('H:i:s'),
         ];
     }
 }

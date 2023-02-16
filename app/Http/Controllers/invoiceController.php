@@ -48,6 +48,7 @@ class invoiceController extends Controller
         $file->total_harga = $request->total_harga;
         $file->no_meja = $request->no_meja;
         $file->waktu = $request->waktu;
+        $file->ekstra_waktu = 'true';
         $file->save();
         if ($request->no_meja > 0) {
             mejaModel::where('no_meja', $request->no_meja)->update([
@@ -111,19 +112,22 @@ class invoiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $invoice = invoiceModel::find($id);
-        $invoice->id_menu = $request->id_menu;
-        $invoice->id_pesanan = $request->id_pesanan;
-        $invoice->jumlah_pesanan = $request->jumlah_pesanan;
-        $invoice->total_harga = $request->total_harga;
-        $invoice->save();
-
+        // just update time 
+        invoiceModel::where('id', $id)->update([
+            'waktu' => $request->waktu
+        ]);
         return response()->json([
             'status' => true,
-            'messages' => 'pesanan Berhasil Di Ubah'
+            'messages' => 'Invoice Berhasil Di Ubah'
         ]);
     }
 
+    public function updateEkstra(Request $request, $id)
+    {
+        invoiceModel::where('id', $id)->update([
+            'ekstra_waktu' => $request->ekstra_waktu
+        ]);
+    }
     /**
      * Remove the specified resource from storage.
      *

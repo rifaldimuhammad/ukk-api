@@ -21,6 +21,7 @@ class InvoiceMigration extends Migration
             $table->string('total_harga');
             $table->string('no_meja');
             $table->string('waktu');
+            $table->enum('ekstra_waktu', ['true', 'false'])->default('false');
             $table->timestamps();
         });
     }

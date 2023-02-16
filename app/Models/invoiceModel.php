@@ -16,6 +16,7 @@ class invoiceModel extends Model
         'jumlah_pesanan',
         'total_harga',
         'no_meja',
-        'waktu'
+        'waktu',
+        'ekstra_waktu'
     ];
 }
