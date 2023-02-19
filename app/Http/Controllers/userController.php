@@ -92,18 +92,26 @@ class userController extends Controller
     {
         $user = User::find($id);
         if (!empty($request->cover)) {
-            unlink($user->cover);
-            $cover = $this->uploadCover($request->cover);
-            $user->cover = $cover;
+            if (!empty($user->cover)) {
+                unlink($user->cover);
+                $cover = $this->uploadCover($request->cover);
+                $user->cover = $cover;
+            } else {
+                $cover = $this->uploadCover($request->cover);
+                $user->cover = $cover;
+            }
         }
         $user->name = $request->name;
         $user->email = $request->email;
         $user->level = $request->level;
-        $user->password = Hash::make($request->password);
+        if (!empty($request->password)) {
+            $user->password = Hash::make($request->password);
+        }
         $user->save();
         return response()->json([
-            'status' => true,
-            'messages' => 'User Berhasil Di Ubah'
+            'success' => true,
+            'message' => 'User Berhasil Di Rubah',
+            'data'    => $user
         ]);
     }
 
