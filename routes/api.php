@@ -28,7 +28,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register', [userController::class, 'register']);
 Route::post('/login', [userController::class, 'login']);
 Route::post('/logout', [userController::class, 'logout'])->middleware('auth:api');
-
 Route::get('/manager', function () {
     $user = new User();
     $user->name = 'manager';

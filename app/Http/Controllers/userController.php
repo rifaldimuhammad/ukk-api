@@ -91,7 +91,9 @@ class userController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::find($id);
-        if (!empty($request->cover) && $request->cover != null) {
+
+        // return $request->cover == 'null';
+        if (!empty($request->cover) && $request->cover != "null") {
             if (!empty($user->cover)) {
                 unlink($user->cover);
                 $cover = $this->uploadCover($request->cover);
