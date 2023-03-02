@@ -23,6 +23,7 @@ class invoiceResource extends JsonResource
             'no_meja' => $this->no_meja,
             'waktu' => $this->waktu,
             'ekstra_waktu' => $this->ekstra_waktu,
+            'timesTamps' => $this->created_at->format('y-m-d h:i:s'),
             'created_at' => $this->created_at->format('F d , Y'),
             'created_at_time' => $this->created_at->format('H:i:s'),
             'updated_at' => $this->updated_at->format('F d , Y'),

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\userResource;
+use App\Models\aktifitas;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -42,6 +43,18 @@ class userController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name'      => 'required',
+            'email'     => 'required|email|unique:users',
+            'password'  => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors(), 400
+            ]);
+        }
         $cover = $this->uploadCover($request->cover);
         $file = new User();
         $file->name = $request->name;
@@ -50,6 +63,12 @@ class userController extends Controller
         $file->cover = $cover;
         $file->password = Hash::make($request->password);
         $file->save();
+
+        $aktifitas = new aktifitas();
+        $aktifitas->id_user = $request->id_user;
+        $aktifitas->nama_aktifitas = "Menambahkan $request->level : $request->email";
+        $aktifitas->read = 'false';
+        $aktifitas->save();
         return response()->json([
             'status' => true,
             'messages' => 'Berhasil Menambahkan User Baru'
@@ -125,12 +144,13 @@ class userController extends Controller
      */
     public function destroy($id)
     {
-        $menu = User::find($id);
-        $cover = public_path($menu->cover);
+        $user = User::find($id);
+        $cover = public_path($user->cover);
         if ($cover) {
-            unlink($menu->cover);
+            unlink($user->cover);
         }
         User::destroy($id);
+
         return response()->json([
             'status' => true,
             'messages' => 'Kategori Berhasil Di Hapus'
@@ -203,7 +223,6 @@ class userController extends Controller
     public function logout(Request $request)
     {
         $removeToken = $request->user()->tokens()->delete();
-
         if ($removeToken) {
             return response()->json([
                 'success' => true,

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\aktifitasController;
 use App\Http\Controllers\invoiceController;
 use App\Http\Controllers\kategoriController;
 use App\Http\Controllers\mejaController;
@@ -42,10 +43,12 @@ Route::get('/manager', function () {
 });
 Route::get('/menu/kategori/{category}', [menuController::class, 'showByCat']);
 Route::get('/invoice/byDate/{date}', [invoiceController::class, 'getInvoiceDate']);
+Route::get('/invoice/date/{date}', [invoiceController::class, 'getDate']);
 Route::post('/invoice/updateEkstra/{id}', [invoiceController::class, 'updateEkstra']);
 Route::apiResource('/menu', menuController::class);
 Route::apiResource('/kategori', kategoriController::class);
 Route::apiResource('/pesanan', pesananController::class);
 Route::apiResource('/meja', mejaController::class);
 Route::apiResource('/invoice', invoiceController::class);
+Route::apiResource('/aktifitas', aktifitasController::class);
 Route::apiResource('/user', userController::class);

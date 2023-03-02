@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Resources\invoiceResource;
 use App\Models\invoiceModel;
 use App\Models\mejaModel;
+use Brick\Math\Exception\MathException;
+use Faker\Core\Number;
 use Illuminate\Http\Request;
 
 class invoiceController extends Controller
@@ -71,16 +73,14 @@ class invoiceController extends Controller
     {
         //
     }
-
-
-    // public function getInvoiceDate($date)
-    // {
-    //     $invoice = invoiceModel::where('created_at', $date)->get();
-    //     return response()->json([
-    //         'status' => 'true',
-    //         'data' => invoiceResource::collection($invoice)
-    //     ]);
-    // }
+    public function getDate($date)
+    {
+        $invoice = invoiceModel::whereDate('created_at', $date )->get();
+        return response()->json([
+            'status' => true,
+            'data' => invoiceResource::collection($invoice)
+        ]);
+    }
     public function getInvoiceDate($date)
     {
         $invoice = invoiceModel::where('created_at', '>=', $date)->get();

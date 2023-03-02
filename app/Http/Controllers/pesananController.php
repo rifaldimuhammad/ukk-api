@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\pesananResource;
 use App\Models\mejaModel;
 use App\Models\pesananModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class pesananController extends Controller
