@@ -5,18 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class invoiceModel extends Model
+class keranjangModel extends Model
 {
     use HasFactory;
-    protected $table = 'invoice';
+    protected $table = 'keranjang';
     protected $primaryKey = "id";
     protected $fillable  = [
+        'id_user',
         'id_menu',
-        'id_pesanan',
-        'jumlah_pesanan',
+        'harga_menu',
+        'jumlah_menu',
         'total_harga',
-        'no_meja',
-        'waktu',
-        'ekstra_waktu'
     ];
+
+    public function menu()
+    {
+        return $this->belongsTo(menuModel::class, 'id_menu', 'id');
+    }
 }

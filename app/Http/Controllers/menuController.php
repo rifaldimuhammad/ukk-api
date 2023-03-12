@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\menuRequest;
 use App\Http\Resources\menuResource;
+use App\Models\aktifitas;
 use App\Models\menuModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class menuController extends Controller
 {
@@ -41,14 +43,19 @@ class menuController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'deskripsi' => 'required',
             'kategori' => 'required',
             'harga' => 'required',
-            'cover' => 'required '
-
+            'cover' => 'required|image|mimes:png,jpg,jpeg,svg,webp,gif,jfif'
         ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Foto Menu Harus Berformat gamnbar'
+            ]);
+        }
         $cover = $this->uploadCover($request->cover);
         $file = new menuModel();
         $file->nama = $request->nama;
@@ -57,6 +64,8 @@ class menuController extends Controller
         $file->harga = $request->harga;
         $file->cover = $cover;
         $file->save();
+
+        $aktifitas = $this->aktifitasStore($request->id_user, 'Menambahkan Menu Baru', $request->nama);
         return response()->json([
             'status' => true,
             'messages' => 'Berhasil Menambahkan Menu Baru'
@@ -107,15 +116,18 @@ class menuController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nama' => 'required',
-            'deskripsi' => 'required',
-            'kategori' => 'required',
-            'harga' => 'required',
-            'cover' => 'image|mimes:jpg,png,jpeg,gif,svg',
-        ]);
         $menu = menuModel::find($id);
         if (!empty($request->cover)) {
+            $validator = Validator::make($request->all(), [
+                'cover' => 'image|mimes:jpg,png,jpeg,gif,svg',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Foto Menu Harus Berformat Gambar digital'
+                ]);
+            }
             unlink($menu->cover);
             $cover = $this->uploadCover($request->cover);
             $menu->cover = $cover;
@@ -127,7 +139,7 @@ class menuController extends Controller
         $menu->save();
         return response()->json([
             'status' => true,
-            'messages' => 'Menu Berhasil Di Ubah'
+            'message' => 'Menu Berhasil Di Ubah'
         ]);
     }
 
@@ -157,5 +169,17 @@ class menuController extends Controller
         $path = $cover->move('cover',  date('Ymdhis') . $extFile);
         $path = str_replace('\\', '/', $path);
         return $path;
+    }
+    public function aktifitasStore($idUser, $message, $name)
+    {
+        $aktifitas = new aktifitas();
+        $aktifitas->id_user = $idUser;
+        $aktifitas->nama_aktifitas = "$message : $name";
+        $aktifitas->read = 'false';
+        $aktifitas->save();
+        return response()->json([
+            'status' => true,
+            'messages' => 'Berhasil Menambahkan Menu Baru'
+        ]);
     }
 }

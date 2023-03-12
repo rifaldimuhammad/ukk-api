@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class InvoiceMigration extends Migration
+class PesananDetail extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,12 @@ class InvoiceMigration extends Migration
      */
     public function up()
     {
-        Schema::create('invoice', function (Blueprint $table) {
-            $table->id('id');
-            $table->string('id_menu');
+        Schema::create('pesanan_detail', function (Blueprint $table) {
+            $table->id();
             $table->string('id_pesanan');
+            $table->string('id_menu');
             $table->string('jumlah_pesanan');
-            $table->string('total_harga');
-            $table->string('no_meja');
-            $table->string('waktu');
-            $table->enum('ekstra_waktu', ['true', 'false'])->default('false');
+            $table->string('sub_total');
             $table->timestamps();
         });
     }

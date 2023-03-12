@@ -20,6 +20,10 @@ class menuModel extends Model
 
     public function pesanan()
     {
-        return $this->hasMany(pesananModel::class, 'id_menu', 'id');
+        return $this->hasMany(keranjangModel::class, 'id_menu', 'id');
+    }
+    public function pesananDetail()
+    {
+        return $this->hasMany(pesananDetail::class, 'id_menu', 'id');
     }
 }

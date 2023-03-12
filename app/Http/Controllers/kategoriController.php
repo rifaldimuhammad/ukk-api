@@ -7,6 +7,7 @@ use App\Http\Resources\kategoriResource;
 use App\Models\kategoriModel;
 use App\Models\menuModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class kategoriController extends Controller
 {
@@ -42,10 +43,15 @@ class kategoriController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            "nama" => 'required',
-            "cover" => 'required'
+        $validator = Validator::make($request->all(), [
+            'cover' => 'image|mimes:jpg,png,jpeg,gif,svg,webp,jfif',
         ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Foto Category Harus Berformat Gambar digital'
+            ]);
+        }
         $cover = $this->uploadCover($request->cover);
         $file = new kategoriModel();
         $file->nama = $request->nama;
@@ -91,13 +97,17 @@ class kategoriController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            "nama" => 'required',
-            "cover" => 'required'
-        ]);
         $menu = kategoriModel::find($id);
-
         if (!empty($request->cover)) {
+            $validator = Validator::make($request->all(), [
+                'cover' => 'image|mimes:jpg,png,jpeg,gif,svg,webp,jfif',
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Foto Category Harus Berformat Gambar digital'
+                ]);
+            }
             unlink($menu->cover);
             $cover = $this->uploadCover($request->cover);
             $menu->cover = $cover;

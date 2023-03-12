@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\aktifitasResource;
-use App\Models\aktifitas;
+use App\Http\Resources\pesananDetailResource;
+use App\Models\pesananDetail;
 use Illuminate\Http\Request;
 
-class aktifitasController extends Controller
+class pesananDetailController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +15,10 @@ class aktifitasController extends Controller
      */
     public function index()
     {
-        $aktifitas = aktifitas::get();
+        $pesananDetail = pesananDetail::get();
         return response()->json([
             'status' => true,
-            'data' => aktifitasResource::collection($aktifitas)
+            'data' => pesananDetailResource::collection($pesananDetail)
         ]);
     }
 
@@ -51,10 +51,10 @@ class aktifitasController extends Controller
      */
     public function show($id)
     {
-        $aktifitas = aktifitas::where('id_user', $id)->get();
+        $pesananDetail = pesananDetail::where('id_pesanan', $id)->get();
         return response()->json([
             'status' => true,
-            'data' => aktifitasResource::collection($aktifitas)
+            'data' => pesananDetailResource::collection($pesananDetail)
         ]);
     }
 
@@ -78,15 +78,7 @@ class aktifitasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // just update read false|true
-        $aktifitas = aktifitas::find($id);
-        $aktifitas->read = 'true';
-        $aktifitas->save();
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Aktifitas Telah DI lihat'
-        ]);
+        //
     }
 
     /**
@@ -97,11 +89,6 @@ class aktifitasController extends Controller
      */
     public function destroy($id)
     {
-        $aktifitas = aktifitas::find($id);
-        $aktifitas->destroy($id);
-        return response()->json([
-            'status' => true,
-            'message' => 'Berhasil Menghapus Aktifitas'
-        ]);
+        //
     }
 }

@@ -5,22 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class pesananModel extends Model
+class pesananDetail extends Model
 {
     use HasFactory;
-    protected $table = 'pesanan';
-    protected $primaryKey = "id";
-    protected $fillable  = [
-        'id_menu',
+    protected $table = 'pesanan_detail';
+    protected $fillable = [
         'id_pesanan',
+        'id_menu',
         'jumlah_pesanan',
-        'total_harga',
-        'tunai',
-        'no_meja',
-        'waktu',
-        'ekstra_waktu'
+        'sub_total',
     ];
-    public function menus()
+    public function menu()
     {
         return $this->belongsTo(menuModel::class, 'id_menu', 'id');
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class PesananMigration extends Migration
+class keranjangMigration extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class PesananMigration extends Migration
      */
     public function up()
     {
-        Schema::create('pesanan', function (Blueprint $table) {
+        Schema::create('keranjang', function (Blueprint $table) {
             $table->id('id');
             $table->string('id_user');
             $table->string('id_menu');

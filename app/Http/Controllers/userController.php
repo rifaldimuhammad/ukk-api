@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\tokenResource;
 use App\Http\Resources\userResource;
 use App\Models\aktifitas;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -175,11 +177,14 @@ class userController extends Controller
         $validator = Validator::make($request->all(), [
             'name'      => 'required',
             'email'     => 'required|email|unique:users',
-            'password'  => 'required|min:8|confirmed'
+            'password'  => 'required'
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors(), 400
+            ]);
         }
 
         $user = User::create([
@@ -189,7 +194,7 @@ class userController extends Controller
         ]);
 
         return response()->json([
-            'success' => true,
+            'status' => true,
             'message' => 'Register Success!',
             'data'    => $user
         ]);
@@ -229,5 +234,13 @@ class userController extends Controller
                 'message' => 'Logout Success!',
             ]);
         }
+    }
+    public function getToken()
+    {
+        $tokens = DB::table('oauth_access_tokens')->get();
+        return response()->json([
+            'status' => true,
+            'data' => tokenResource::collection($tokens),
+        ]);
     }
 }
