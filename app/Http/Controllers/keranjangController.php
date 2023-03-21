@@ -71,8 +71,6 @@ class keranjangController extends Controller
             $file->total_harga = $request->harga_menu * $request->jumlah_menu;
             $file->id_user = $request->id_user;
             $file->save();
-
-            
         }
         return response()->json([
             'status' => true,
@@ -119,7 +117,18 @@ class keranjangController extends Controller
 
         return response()->json([
             'status' => true,
-            'messages' => 'pesanan Berhasil Di Ubah'
+            'messages' => 'keranjang Berhasil Di Ubah'
+        ]);
+    }
+    public function updateJumlah(Request $request, $id)
+    {
+        $keranjang = keranjangModel::find($id);
+        $keranjang->jumlah_menu = $request->jumlah_menu;
+        $keranjang->total_harga = $request->jumlah_menu * $request->harga_menu;
+        $keranjang->save();
+        return response()->json([
+            'status' => true,
+            'messages' => 'keranjang Berhasil Di Ubah'
         ]);
     }
 

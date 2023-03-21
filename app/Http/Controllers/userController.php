@@ -112,7 +112,6 @@ class userController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::find($id);
-
         // return $request->cover == 'null';
         if (!empty($request->cover) && $request->cover != "null") {
             if (!empty($user->cover)) {
@@ -135,6 +134,17 @@ class userController extends Controller
             'success' => true,
             'message' => 'User Berhasil Di Rubah',
             'data'    => $user
+        ]);
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $user = User::find($id);
+        $user->status = $request->status;
+        $user->save();
+        return response()->json([
+            'status' => true,
+            'message' => 'Status User Berhasil Di Rubah',
         ]);
     }
 
@@ -213,7 +223,14 @@ class userController extends Controller
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'success' => false,
+                'status' => false,
                 'message' => 'Login Failed!',
+            ]);
+        }
+        if ($user->status == 'false') {
+            return response()->json([
+                'statusUser' => false,
+                'message' => 'User Di nonaktifkan',
             ]);
         }
         return response()->json([

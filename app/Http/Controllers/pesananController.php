@@ -131,6 +131,15 @@ class pesananController extends Controller
     }
 
 
+    public function getLastAdd()
+    {
+        $pesanan = pesananModel::where('created_at', pesananModel::max('created_at'))->orderBy('created_at', 'desc')->get();
+        return response()->json([
+            'status' => true,
+            'data' => pesananResource::collection($pesanan)
+        ]);
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -168,6 +177,8 @@ class pesananController extends Controller
             'ekstra_waktu' => $request->ekstra_waktu
         ]);
     }
+
+    
     /**
      * Remove the specified resource from storage.
      *

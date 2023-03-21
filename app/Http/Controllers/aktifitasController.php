@@ -15,7 +15,7 @@ class aktifitasController extends Controller
      */
     public function index()
     {
-        $aktifitas = aktifitas::get();
+        $aktifitas = aktifitas::latest()->get();
         return response()->json([
             'status' => true,
             'data' => aktifitasResource::collection($aktifitas)

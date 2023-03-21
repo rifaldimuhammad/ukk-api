@@ -6,6 +6,7 @@ use App\Http\Requests\menuRequest;
 use App\Http\Resources\menuResource;
 use App\Models\aktifitas;
 use App\Models\menuModel;
+use Hamcrest\Type\IsInteger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -93,6 +94,23 @@ class menuController extends Controller
             'status' => true,
             'data' => menuResource::collection($cat)
         ]);
+    }
+
+    public function searchMenu($string)
+    {
+        if (is_numeric($string)) {
+            $menuByNumber = menuModel::where('harga', 'LIKE', '%' . $string . '%')->get();
+            return response()->json([
+                'status' => true,
+                'data' => $menuByNumber
+            ]);
+        } else {
+            $menuByString = menuModel::where('nama', 'LIKE', '%' . $string . '%')->get();
+            return response()->json([
+                'status' => true,
+                'data' => $menuByString
+            ]);
+        }
     }
 
     /**
